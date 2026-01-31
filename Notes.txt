@@ -21,6 +21,15 @@ bash_rc_function_example.txt
 
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You may need to run these ps commands on windows target 1st (in admin cmd)
+
+netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
+netsh advfirewall firewall set rule group="Remote Service Management" new enable=Yes
+netsh advfirewall firewall set rule group="Windows Management Instrumentation (WMI)" new enable=Yes
+
+
+
 
 
 
