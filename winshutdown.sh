@@ -1,7 +1,9 @@
 #!/bin/bash
 # (c) J~Net 2026
 #
-# ./winshutdown.sh "192.168.1.50" "PasswordHere"
+# https://github.com/jamieduk/winshutdown
+#
+# ./winshutdown.sh "192.168.43.150" "PasswordHere" "Administrator"
 #
 
 #=============================
@@ -9,7 +11,7 @@
 #=============================
 WIN_IP="$1"
 WIN_PASS="$2"
-WIN_USER="Administrator"
+WIN_USER="${3:-Administrator}"
 DELAY=5
 MSG="System will shut down!...."
 
@@ -18,6 +20,14 @@ MSG="System will shut down!...."
 #=============================
 if [ -z "$WIN_IP" ]; then
     read -rp "Enter Windows IP: " WIN_IP
+fi
+
+
+if [ -z "$3" ]; then
+    read -rp "Enter Windows Username (default=Administrator): " INPUT_USER
+    if [ -n "$INPUT_USER" ]; then
+        WIN_USER="$INPUT_USER"
+    fi
 fi
 
 if [ -z "$WIN_PASS" ]; then
@@ -35,7 +45,7 @@ if ! command -v net >/dev/null 2>&1; then
     sudo apt install -y samba-common-bin
 fi
 
-echo "[INFO] Sending shutdown request to $WIN_IP ..."
+echo "[INFO] Sending shutdown request to $WIN_IP as $WIN_USER ..."
 
 net rpc shutdown \
     -I "$WIN_IP" \
