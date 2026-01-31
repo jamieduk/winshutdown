@@ -1,0 +1,44 @@
+
+sudo gedit ~/.bashrc
+
+
+winshutdown(){
+    local WIN_IP="$1"
+    local WIN_PASS="$2"
+    local WIN_USER="Administrator"
+    local DELAY=5
+    local MSG="System will shut down!...."
+
+    # Ask for missing IP
+    if [ -z "$WIN_IP" ]; then
+        read -rp "Enter Windows IP: " WIN_IP
+    fi
+
+    # Ask for missing password (allow empty)
+    if [ -z "$WIN_PASS" ]; then
+        read -rsp "Enter Windows Password (leave blank for empty): " WIN_PASS
+        echo ""
+    fi
+
+    # Check if net is installed
+    if ! command -v net >/dev/null 2>&1; then
+        echo "Installing required libraries... sudo password may be required..."
+        sudo apt update -y
+        sudo apt install -y samba-common-bin
+    fi
+
+    echo "[INFO] Sending shutdown request to $WIN_IP ..."
+
+    net rpc shutdown \
+        -I "$WIN_IP" \
+        -U "${WIN_USER}%${WIN_PASS}" \
+        -t "$DELAY" \
+        -C "$MSG"
+
+    if [ $? -eq 0 ]; then
+        echo "[OK] Shutdown command sent successfully."
+    else
+        echo "[FAIL] Shutdown failed (wrong creds, firewall, or permissions)."
+    fi
+}
+

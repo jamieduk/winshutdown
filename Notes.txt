@@ -1,0 +1,27 @@
+WinShutdown By J~Net 2026
+
+
+
+This requires both systems to be on the same network and
+you must use correct login credentails
+
+
+sudo apt -y update
+sudo apt install -y samba-common-bin
+
+sudo chmod +x winshutdown.sh
+
+./winshutdown.sh
+
+
+
+or use a bash rc function (read that text file about that...
+
+bash_rc_function_example.txt
+
+
+
+
+
+
+
